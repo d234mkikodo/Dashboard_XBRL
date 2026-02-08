@@ -10,7 +10,8 @@ const cache = new NodeCache({ stdTTL: 300 }); // Cache 5 นาที
 // CORS configuration
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://dashboard-financial.vercel.app', // เปลี่ยนเป็น URL จริงของคุณ
+  'https://dashboard-front-phi.vercel.app',
+  'https://dashboard-xbrl-backend.vercel.app',
   /\.vercel\.app$/ // อนุญาตทุก subdomain ของ vercel.app
 ];
 
