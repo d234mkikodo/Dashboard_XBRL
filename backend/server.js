@@ -7,7 +7,30 @@ import mockCompanies from './mockData.js';
 const app = express();
 const cache = new NodeCache({ stdTTL: 300 }); // Cache 5 นาที
 
-app.use(cors());
+// CORS configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://dashboard-financial.vercel.app', // เปลี่ยนเป็น URL จริงของคุณ
+  /\.vercel\.app$/ // อนุญาตทุก subdomain ของ vercel.app
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // อนุญาต requests ที่ไม่มี origin (เช่น mobile apps, curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.some(allowed => {
+      if (allowed instanceof RegExp) return allowed.test(origin);
+      return allowed === origin;
+    })) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 // SEC EDGAR API
