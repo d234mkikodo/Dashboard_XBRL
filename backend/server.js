@@ -150,7 +150,14 @@ app.get('/api/news', (req, res) => {
   ]);
 });
 
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3001;
+
+// Export for Vercel Serverless
+export default app;
+
+// Start server for local development
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  });
+}
